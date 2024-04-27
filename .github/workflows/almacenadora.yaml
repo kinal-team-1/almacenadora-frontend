@@ -22,7 +22,7 @@ jobs:
         run: npm i
 
       - name: Check eslint
-        run: npx eslint ".\src\**.{js,jsx,ts,tsx}"
+        run: npm run lint
 
       - name: Check build
         run: npm run build
