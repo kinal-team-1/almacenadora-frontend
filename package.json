@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "preinstall": "node -e \"const fs = require('fs'); if (fs.existsSync('.git')) { require('child_process').execSync('git config core.hooksPath git-hooks'); }\"",
     "dev": "vite",
     "build": "vite build",
     "start": "serve -s dist",
