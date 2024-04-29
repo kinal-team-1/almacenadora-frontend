@@ -24,7 +24,8 @@ module.exports = {
   rules: {
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
-    indent: ["error", 2]
+    indent: ["error", 2],
+    camelcase: "off"
   },
   ignorePatterns: [
     "node_modules/",

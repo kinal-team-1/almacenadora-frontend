@@ -6,6 +6,7 @@ import {
 } from "@tabler/icons-react";
 import { useEffect, useRef, useState } from "react";
 import Searchbar from "./components/Searchbar";
+import TaskCard from "./components/TaskCard";
 
 export default function App() {
   const body = useRef(null);
@@ -53,6 +54,23 @@ export default function App() {
             {isDark && <IconSun />}
             {!isDark && <IconMoon />}
           </button>
+        </div>
+        <div className="mt-5">
+          <TaskCard
+            title="JAZHJAKSDHJA"
+            description="ASKLDJ"
+            isDone
+            created_at="2024-04-29"
+            last_updated_at="2024-04-09"
+            date_start="2024-04-05"
+            date_end="2024-04-28"
+            label={{
+              name: "KJFAS",
+              color: "red",
+            }}
+            user_lastname="aklsdj"
+            user_name="ajsdlkas"
+          />
         </div>
         {/* CONTAINER OF TASK LIST */}
       </div>
