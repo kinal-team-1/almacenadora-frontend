@@ -6,6 +6,7 @@ import {
 } from "@tabler/icons-react";
 import { useEffect, useRef, useState } from "react";
 import Searchbar from "./components/Searchbar";
+import FormAddTask from './components/FormAddTask'
 
 export default function App() {
   const body = useRef(null);
@@ -28,6 +29,7 @@ export default function App() {
           type="button"
           className="bg-indigo-600 text-white p-3 rounded-full absolute bottom-5 right-2"
           aria-label="Add new item"
+          onClick={<FormAddTask/>}
         >
           <IconPlus />
         </button>
@@ -37,7 +39,7 @@ export default function App() {
           <button
             type="button"
             className="bg-indigo-600 text-white px-3 py-2 rounded flex gap-3 items-center"
-          >
+          > 
             <span>All</span>
             <IconChevronDown />
           </button>
