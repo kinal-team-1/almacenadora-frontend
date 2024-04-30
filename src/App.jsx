@@ -15,12 +15,18 @@ export default function App() {
   }
 
   const [isDark, setIsDark] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+
 
   useEffect(() => {
     if (body.current.classList.contains("dark")) {
       setIsDark(true);
     }
   }, []);
+
+  const toggleFrom = () => {
+    setShowForm(!showForm);
+  };
 
   return (
     <div className="h-screen flex flex-col items-center dark:bg-[#252525] dark:text-neutral-200">
@@ -29,8 +35,7 @@ export default function App() {
           type="button"
           className="bg-indigo-600 text-white p-3 rounded-full absolute bottom-5 right-2"
           aria-label="Add new item"
-          onClick={<FormAddTask/>}
-        >
+          onClick={toggleFrom}>
           <IconPlus />
         </button>
         <h1 className="font-bold text-3xl w-full text-center">TODO LIST</h1>
@@ -58,6 +63,7 @@ export default function App() {
         </div>
         {/* CONTAINER OF TASK LIST */}
       </div>
+      {showForm && <FormAddTask />}
     </div>
   );
 }
