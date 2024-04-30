@@ -6,7 +6,7 @@ import {
 } from "@tabler/icons-react";
 import { useEffect, useRef, useState } from "react";
 import Searchbar from "./components/Searchbar";
-import TaskCard from "./components/TaskCard";
+import TaskCardList from "./components/TaskCardList";
 
 export default function App() {
   const body = useRef(null);
@@ -55,7 +55,8 @@ export default function App() {
             {!isDark && <IconMoon />}
           </button>
         </div>
-        <TaskCard />
+
+        <TaskCardList isDark={isDark} />
       </div>
     </div>
   );
