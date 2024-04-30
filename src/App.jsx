@@ -66,7 +66,7 @@ export default function App() {
             date_end="2024-04-28"
             label={{
               name: "KJFAS",
-              color: "red",
+              color: "#2661bf",
             }}
             user_lastname="aklsdj"
             user_name="ajsdlkas"

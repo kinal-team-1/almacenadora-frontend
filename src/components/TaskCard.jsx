@@ -28,24 +28,12 @@ export default function TaskCard({
           <IconEdit />
           <IconTrash />
         </div>
-        {/* <span>{description}</span> */}
-        {/* <span>{String(isDone)}</span> */}
-        {/* <span>{created_at}</span> */}
-        {/* <span>{last_updated_at}</span> */}
-        {/* <span>{date_start}</span> */}
-        {/* <span>{date_end}</span> */}
-        {/* <div className="flex gap-4"> */}
-        {/* <span>{label.name}</span> */}
-        {/* <span>{label.color}</span> */}
-        {/* </div> */}
-        {/* <span>{user_name}</span> */}
-        {/* <span>{user_lastname}</span> */}
       </div>
       <div className="flex flex-col gap-2">
         <div className="flex flex-col ">
           <div className="flex gap-3 text-red-700 dark:text-blue-500">
-            <span>Nombre</span>
-            <span>Apellido</span>
+            <span>Nombre:</span>
+            <span>Apellido:</span>
           </div>
           <div className="flex gap-3">
             <span>{user_name}.</span>
@@ -64,31 +52,31 @@ export default function TaskCard({
         </p>
       </div>
       <div className="flex justify-between">
-        <div className="flex gap-3">
+        <div className="flex gap-3  text-orange-700 dark:text-green-500 ">
           <span>{date_start}</span>
           <span>{date_end}</span>
         </div>
         <div
+          className="border relative rounded"
           style={{
             borderColor: label.color,
-            border: `1px ${label.color} solid`,
           }}
-          className="relative rounded"
         >
           <span
-            className="absolute w-full h-full px-2 py-2"
+            className="absolute w-full h-full"
             style={{
               backgroundColor: label.color,
-              opacity: 0.3,
+              opacity: 0.5,
             }}
-          />
-          <span
+          ></span>
+          <div
+            className="mx-2 my-1 cursor-pointer"
             style={{
               color: label.color,
             }}
           >
-            {label.name}
-          </span>
+            HOLA
+          </div>
         </div>
       </div>
     </div>
