@@ -44,11 +44,7 @@ export default function TaskCard({
       <div>
         <span className="text-red-600 dark:text-blue-600">Descripcion</span>
         <p>
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repudiandae
-          ut adipisci dicta quaerat perspiciatis, aperiam nulla, quisquam
-          maiores suscipit itaque ducimus sequi modi ratione natus minima
-          voluptas distinctio libero? Amet expedita qui maxime harum aliquid
-          iure tempora quasi, aut quos!
+          {description}
         </p>
       </div>
       <div className="flex justify-between">
