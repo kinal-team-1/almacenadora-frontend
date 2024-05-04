@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import emptyImageDark from "../assets/detective-night.png";
 import emptyImageLight from "../assets/detective-light.png";
-import TaskCard from "./TaskCard"
+import TaskCard from "./TaskCard";
 
 export function Spinner() {
   return (
@@ -25,6 +25,7 @@ export default function TaskList({ isDark }) {
         const response = await fetch(API_URL);
         const data = await response.json();
         setTasks(data.data);
+        console.log({ task: data.data });
         setIsLoading(false);
       } catch (error) {
         setIsLoading(false);
@@ -52,41 +53,74 @@ export default function TaskList({ isDark }) {
   }
 
   return (
-    <div className="w-full">
-      {tasks.map(({
-        _id,
-        title,
-        description,
-        isDone,
-        date_start,
-        date_end,
-        label,
-        user_name,
-        user_lastname,
-      }) => (
-        <TaskCard
-          onStatusChange={() => {
-            async function updateTask() {
-              const response = await fetch(`${API_URL}/${_id}`, {
-                method: "PUT",
-                body: JSON.stringify({isDone: !isDone})
-              })
+    <div className="w-full grow py-10 flex flex-col gap-3 px-4 overflow-y-scroll">
+      {tasks.map(
+        ({
+          _id,
+          title,
+          description,
+          isDone,
+          date_start,
+          date_end,
+          label,
+          user_name,
+          user_lastname,
+        }) => (
+          <TaskCard
+            onStatusChange={() => {
+              async function updateTask() {
+                console.log({ isDone, _id });
+                const response = await fetch(`${API_URL}/${_id}`, {
+                  method: "PUT",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({ isDone: !isDone }),
+                });
 
-              if (!response.ok) return;
+                if (!response.ok) return;
+                console.log({ response: await response.json() });
 
-              // eslint-disable-next-line no-underscore-dangle
-              const taskIndex = tasks.findIndex((task) => task._id === _id)
-              tasks[taskIndex] = {...tasks[taskIndex], isDone: !isDone};
-              setTasks([...tasks]);
-            }
+                // eslint-disable-next-line no-underscore-dangle
+                const taskIndex = tasks.findIndex((task) => task._id === _id);
+                tasks[taskIndex] = { ...tasks[taskIndex], isDone: !isDone };
+                setTasks([...tasks]);
+              }
 
-            updateTask();
-          }}
-          key={_id} title={title} description={description} isDone={isDone} date_start={date_start} date_end={date_end} label={label} user_name={user_name} user_lastname={user_lastname} />
-      ))}
+              updateTask();
+            }}
+            onRemove={() => {
+              async function removeTask() {
+                const response = await fetch(`${API_URL}/${_id}`, {
+                  method: "DELETE",
+                });
+
+                if (!response.ok) return;
+                console.log({ response: await response.json() });
+
+                // eslint-disable-next-line no-underscore-dangle
+                const taskIndex = tasks.findIndex((task) => task._id === _id);
+                tasks.splice(taskIndex, 1);
+                setTasks([...tasks]);
+              }
+
+              removeTask();
+            }}
+            key={_id}
+            title={title}
+            description={description}
+            isDone={isDone}
+            date_start={date_start}
+            date_end={date_end}
+            label={label}
+            user_name={user_name}
+            user_lastname={user_lastname}
+          />
+        ),
+      )}
     </div>
   );
-};
+}
 
 TaskList.propTypes = {
   isDark: PropTypes.bool.isRequired,

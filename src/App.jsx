@@ -23,11 +23,11 @@ export default function App() {
   }, []);
 
   return (
-    <div className="h-screen flex flex-col items-center dark:bg-[#252525] dark:text-neutral-200">
-      <div className="w-full md:max-w-[80%] xl:max-w-[60%] py-5 px-2 h-full relative">
+    <div className="h-dvh flex flex-col items-center bg-slate-100 dark:bg-[#252525] dark:text-neutral-200 overflow-x-visible overflow-y-hidden">
+      <div className="w-full md:max-w-[80%] xl:max-w-[60%] py-5 px-2 h-full relative flex flex-col">
         <button
           type="button"
-          className="bg-indigo-600 text-white p-3 rounded-full absolute bottom-5 right-2"
+          className="bg-indigo-600 text-white p-3 rounded-full absolute bottom-5 z-50 right-2"
           aria-label="Add new item"
         >
           <IconPlus />
@@ -55,9 +55,7 @@ export default function App() {
             {!isDark && <IconMoon />}
           </button>
         </div>
-        <div className="mt-5">
-          <TaskCardList isDark={isDark} />
-        </div>
+        <TaskCardList isDark={isDark} />
       </div>
     </div>
   );
