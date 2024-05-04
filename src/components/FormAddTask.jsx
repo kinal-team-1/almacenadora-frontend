@@ -1,6 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import PropTypes from "prop-types";
 
-export default function NewNoteModal() {
+
+const API_URL =
+  "https://almacenadora-kinal-backend-a1957ef7f11d.herokuapp.com/api";
+
+
+export default function NewNoteModal({ onTaskAdded }) {
+  console.log("NewNoteModal");
   const [formData, setFormData] = useState({
     startDate: "",
     endDate: "",
@@ -12,10 +20,37 @@ export default function NewNoteModal() {
     lastName: "",
   });
 
+  const [fetchedLabels, setFetchedLabels] = useState({
+    labels: [],
+    isLoading: true,
+  });
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+
+  useEffect(() => {
+    async function fetchLabels() {
+      try {
+        const response = await fetch(`${API_URL}/label`);
+        if (!response.ok) {
+          toast("Error fetching labels", { type: "error" })
+          return;
+        }
+
+        const data = await response.json();
+        console.log("data", data.data);
+        setFetchedLabels({ labels: data.data, isLoading: false });
+        toast("Labels fetched successfully", { type: "success" });
+      } catch (error) {
+        console.error("Error fetching labels", error);
+        toast("Error fetching labels", { type: "error" });
+      }
+    }
+
+    fetchLabels();
+  }, [])
 
   const [showModal, setShowModal] = useState(true);
 
@@ -25,6 +60,45 @@ export default function NewNoteModal() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+
+
+    const newTask = {
+      title: formData.taskName,
+      description: formData.description,
+      date_start: formData.startDate,
+      date_end: formData.endDate,
+      user_name: formData.firstName,
+      user_lastname: formData.lastName,
+      label: formData.label,
+      isDone: formData.status === "DONE",
+    };
+
+    async function addTask() {
+      try {
+        const response = await fetch(`${API_URL}/task`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newTask),
+        });
+
+        if (!response.ok) {
+          toast("Error adding task", { type: "error" });
+          return;
+        }
+
+        toast("Task added successfully", { type: "success" });
+        onTaskAdded();
+        setShowModal(!showModal);
+      } catch (error) {
+        console.error("Error adding task", error);
+        toast("Error adding task", { type: "error" });
+      }
+    }
+    addTask();
+
   };
 
   return (
@@ -41,7 +115,6 @@ export default function NewNoteModal() {
               borderRadius: "16px",
             }}
           >
-            {" "}
             <h2 className="text-xl font-semibold mb-1 text-center">New Note</h2>
             <form onSubmit={handleSubmit} className="space-y-5">
               <input
@@ -83,17 +156,22 @@ export default function NewNoteModal() {
               >
                 <option value="">Select Status</option>
                 <option value="TODO">TODO</option>
-                <option value="IN PROGRESS">IN PROGRESS</option>
                 <option value="DONE">DONE</option>
               </select>
-              <input
-                type="text"
-                name="label"
-                placeholder="Label"
-                value={formData.label}
-                onChange={handleChange}
-                className="border border-indigo-600 rounded px-4 py-2 w-full"
-              />
+              {fetchedLabels.isLoading && <p>Loading labels...</p>}
+              {!fetchedLabels.isLoading && (
+                <select
+                  className="border border-indigo-600 rounded px-4 py-2 w-full"
+                  name="label" value={formData.label}
+                  onChange={handleChange}
+                >
+                  {fetchedLabels.labels.map(label => <option style={{
+                    backgroundColor: label.color,
+                    color: "white",
+                    // eslint-disable-next-line no-underscore-dangle
+                  }} key={label._id} value={label._id}>{label.name}</option>)}
+                </select>
+              )}
               <input
                 type="text"
                 name="firstName"
@@ -131,4 +209,8 @@ export default function NewNoteModal() {
       )}
     </div>
   );
+}
+
+NewNoteModal.propTypes = {
+  onTaskAdded: PropTypes.func.isRequired,
 }
