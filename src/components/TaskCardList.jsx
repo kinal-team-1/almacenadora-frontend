@@ -16,12 +16,13 @@ export function Spinner() {
 const API_URL =
   "https://almacenadora-kinal-backend-a1957ef7f11d.herokuapp.com/api/task";
 
-export default function TaskList({ isDark }) {
+export default function TaskList({ isDark, shouldUpdate }) {
   const [state, setState] = useState({
     tasks: [],
     isLoading: true,
   });
   useEffect(() => {
+    if (!shouldUpdate) return;
     console.log("WTF");
     const fetchTasks = async () => {
       try {
@@ -43,7 +44,7 @@ export default function TaskList({ isDark }) {
     };
 
     fetchTasks();
-  }, []);
+  }, [shouldUpdate]);
 
   if (state.isLoading) {
     return <Spinner />;
@@ -149,4 +150,5 @@ export default function TaskList({ isDark }) {
 
 TaskList.propTypes = {
   isDark: PropTypes.bool.isRequired,
+  shouldUpdate: PropTypes.bool.isRequired,
 };
