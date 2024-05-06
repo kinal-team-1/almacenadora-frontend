@@ -12,6 +12,7 @@ export default function TaskCard({
   user_lastname,
   onStatusChange,
   onRemove,
+  onEdit,
 }) {
   return (
     <div className="flex flex-col gap-5 shadow-lg p-2 w-full bg-neutral-100 dark:bg-[#2b2a2a] transition-transform hover:scale-105">
@@ -28,7 +29,10 @@ export default function TaskCard({
           </div>
         </div>
         <div className="flex gap-3 items-center">
-          <IconEdit className="cursor-pointer hover:text-indigo-600" />
+          <IconEdit
+            onClick={onEdit}
+            className="cursor-pointer hover:text-indigo-600"
+          />
           <IconTrash
             onClick={onRemove}
             className="cursor-pointer hover:text-indigo-600"
@@ -65,26 +69,28 @@ export default function TaskCard({
           </div>
         </div>
         {label && (
-          <div
-            className="border relative rounded"
-            style={{
-              borderColor: label.color,
-            }}
-          >
-            <span
-              className="absolute w-full h-full"
-              style={{
-                backgroundColor: label.color,
-                opacity: 0.5,
-              }}
-            />
+          <div className="flex justify-center items-center">
             <div
-              className="mx-2 my-1 cursor-pointer"
+              className="border relative rounded"
               style={{
-                color: label.color,
+                borderColor: label.color,
               }}
             >
-              {label.name}
+              <span
+                className="absolute w-full h-full"
+                style={{
+                  backgroundColor: label.color,
+                  opacity: 0.5,
+                }}
+              />
+              <div
+                className="mx-2 my-1 cursor-pointer"
+                style={{
+                  color: label.color,
+                }}
+              >
+                {label.name}
+              </div>
             </div>
           </div>
         )}
@@ -99,6 +105,7 @@ TaskCard.propTypes = {
   isDone: PropTypes.bool.isRequired,
   date_start: PropTypes.string.isRequired,
   date_end: PropTypes.string.isRequired,
+  onEdit: PropTypes.func.isRequired,
   // eslint-disable-next-line react/require-default-props
   label: PropTypes.shape({
     name: PropTypes.string.isRequired,
